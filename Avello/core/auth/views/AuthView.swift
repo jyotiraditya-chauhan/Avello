@@ -1,5 +1,5 @@
 //
-//  LoginView.swift
+//  AuthView.swift
 //  Avello
 //
 //  Created by Aditya Chauhan on 02/03/26.
@@ -7,13 +7,15 @@
 
 import SwiftUI
 
-struct LoginView: View {
+struct AuthView: View {
     @EnvironmentObject private var router: Router
-
+    @EnvironmentObject private var manager: ThemeManager
+    
     var body: some View {
         VStack(spacing: 16) {
             Text("Sign In")
                 .font(.title.bold())
+                
 
             Button("Continue with Google") {}
                 .buttonStyle(.bordered)
@@ -38,6 +40,6 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    AuthView()
         .environmentObject(Router())
 }
