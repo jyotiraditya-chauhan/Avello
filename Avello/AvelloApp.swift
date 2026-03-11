@@ -10,11 +10,14 @@ import SwiftUI
 @main
 struct AvelloApp: App {
     @StateObject private var router = Router()
+    @StateObject private var themeManager = ThemeManager()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(router)
+            ThemeHost(manager: themeManager) {
+                ContentView()
+                    .environmentObject(router)
+            }
         }
     }
 }

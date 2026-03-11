@@ -1,32 +1,49 @@
 //
-//  SplashView.swift
-//  Avello
+//  ContentView.swift
+//  Braille
 //
-//  Created by Aditya Chauhan on 02/03/26.
+//  Created by GU on 21/01/26.
 //
 
 import SwiftUI
 
 struct SplashView: View {
-    @EnvironmentObject private var router: Router
+    @EnvironmentObject var router: Router
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
+    @State private var startContentAnimation = false
 
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Avello")
-                .font(.largeTitle.bold())
-            Text("Focus-first productivity")
-                .foregroundStyle(.secondary)
+        ZStack {
+            VStack(spacing: 25) {
+                Image(AppImages.appIcon)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 120, height: 120).cornerRadius(999)
 
-            Button("Get Started") {
-                router.navigateTo(.onboarding)
+                Text("Avello")
+                    .font(.system(size: 42, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white)
+                    .tracking(2)
             }
-            .buttonStyle(.borderedProminent)
+            .scaleEffect(startContentAnimation ? 1 : 0.9)
+            .opacity(startContentAnimation ? 1 : 0)
+            .offset(y: startContentAnimation ? 0 : 20)
         }
-        .padding()
+        .onAppear {
+            withAnimation(.easeOut(duration: 1.0)) {
+                startContentAnimation = true
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                if hasCompletedOnboarding {
+                    router.navigateTo(.main)
+                } else {
+                    router.navigateTo(.onboarding)
+                }
+            }
+        }
     }
 }
 
-#Preview {
-    SplashView()
-        .environmentObject(Router())
-}
+
